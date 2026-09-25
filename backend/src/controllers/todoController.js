@@ -1,20 +1,20 @@
-const { sql, poolPromise } = require('../db');
+const { sql, poolPromise } = require('../database/db');
 
 //GET /api/todos
 const getTodos = async (req, res) => {
     try{
         const pool = await poolPromise;
 
-        const result = await pool.request().sql(`SELECT [Id], 
+        const result = await pool.request().query(`SELECT [Id], 
             [Title],
             [Description],
             [IsDone],
             [CreatedAt],
-            [UpdatedAt],
+            [UpdatedAt]
             FROM [dbo].[Todos]
             ORDER BY [CreatedAt] DESC`);
 
-        res.status(200).json(result.result);
+        res.status(200).json(result.recordset);
     }
     catch (error) {
         console.error('Error fetching todos:', error);
@@ -29,3 +29,7 @@ const getTodos = async (req, res) => {
 //POST /api/todos
 //PUT /api/todos/:id
 //DELETE /api/todos/:id
+
+module.exports = {
+    getTodos
+};
