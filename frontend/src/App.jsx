@@ -6,6 +6,7 @@ import TodoList from './components/TodoList';
 import {
     getTodos,
     createTodo,
+    updateTodo,
     deleteTodo
 } from './services/todoService';
 
@@ -36,7 +37,43 @@ function App() {
     try {
         setError('');
 
-        if (todoData) {
+        if (editingTodo) {
+            const status = window.confirm(
+                'Are you sure you want to update this todo?'
+            );
+
+            if (!status) {
+                return;
+            }
+
+            //Edit existing todo
+            const updatedTodo = await updateTodo(
+                editingTodo.Id,
+                {
+                    ...todoData,
+                    IsDone: editingTodo.IsDone
+                }
+            );
+
+            setTodos(current =>
+                current.map(todo =>
+                    todo.Id === updatedTodo.Id
+                        ? updatedTodo
+                        : todo
+                )
+            );
+
+            setEditingTodo(null);
+        }
+        else {
+            const status = window.confirm(
+                'Are you sure you want to add this todo?'
+            );
+
+            if (!status) {
+                return;
+            }
+
             //Add a new todo
             const newTodo = await createTodo({
                 ...todoData,
@@ -45,10 +82,6 @@ function App() {
 
             //await loadTodos();
             setTodos(current => [newTodo, ...current]);
-        }
-        else {
-            //Edit existing todo
-
         }
 
     } catch (err) {

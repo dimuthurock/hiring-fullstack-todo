@@ -57,18 +57,20 @@ function TodoForm({ todo, onSave, onCancel }) {
                 maxLength={1000}
             />
 
-            <button type="submit">
-                {todo ? 'Update' : 'Add'}
-            </button>
-
-            {todo && (
-                <button
-                    type="button"
-                    onClick={handleCancel}
-                >
-                    Cancel
+            <div className='todo-form-actions'>
+                <button type="submit">
+                    {todo ? 'Update' : 'Add'}
                 </button>
-            )}
+
+                {todo && (
+                    <button
+                        type="button"
+                        onClick={handleCancel}
+                    >
+                        Cancel
+                    </button>
+                )}
+            </div>
         </form>
     );
 }

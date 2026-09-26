@@ -92,9 +92,15 @@ button {
 
 .todo-form {
     display: grid;
-    grid-template-columns: 1fr 1.5fr auto;
+    grid-template-columns: 1fr 1fr 0.5fr;
     gap: 10px;
     margin-bottom: 20px;
+}
+
+.todo-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .todo-form input {

@@ -75,8 +75,72 @@ const createTodo = async (req, res) => {
     }
 };
 
-//TODO
 //PUT /api/todos/:id
+const updateTodo = async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({
+                message: 'Invalid todo Id'
+            });
+        }
+
+        const { Title, Description, IsDone = false } = req.body;
+
+        if (!Title || !Title.trim()) {
+            return res.status(400).json({
+                message: 'Title is required'
+            });
+        }
+
+        if (typeof IsDone !== 'boolean') {
+            return res.status(400).json({
+                message: 'Completed must be a boolean'
+            });
+        }
+
+        const pool = await poolPromise;
+
+        const result = await pool
+            .request()
+            .input('Id', 
+                sql.Int, 
+                id)
+            .input('Title', 
+                sql.NVarChar(200), 
+                Title.trim())
+            .input(
+                'Description',
+                sql.NVarChar(sql.MAX),
+                Description?.trim() || null
+            )
+            .input('IsDone', 
+                sql.Bit, 
+                IsDone)
+            .query(`
+                UPDATE [dbo].[Todos]
+                SET    
+                    [Title] = @Title,
+                    [Description] = @Description, 
+                    [IsDone] = @IsDone
+                 OUTPUT
+                    INSERTED.Id,
+                    INSERTED.Title,
+                    INSERTED.Description,
+                    INSERTED.IsDone,
+                    INSERTED.CreatedAt
+                WHERE (Id = @Id)
+            `);
+
+        res.status(200).json(result.recordset[0]);
+    } catch (error) {
+        console.error('Error editing todo:', error);
+        res.status(500).json({
+            message: 'Failed to edit todo'
+        });
+    }
+};
 
 //DELETE /api/todos/:id
 const deleteTodo = async (req, res) => {
@@ -111,5 +175,6 @@ const deleteTodo = async (req, res) => {
 module.exports = {
     getTodos,
     createTodo,
+    updateTodo,
     deleteTodo
 };

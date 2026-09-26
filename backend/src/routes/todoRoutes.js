@@ -4,6 +4,7 @@ const router = express.Router();
 const {
     getTodos,
     createTodo,
+    updateTodo,
     deleteTodo
 } = require('../controllers/todoController');
 
@@ -16,8 +17,8 @@ router.get('/', getTodos);
 //POST /api/todos
 router.post('/', createTodo);
 
-//TODO
 //PUT /api/todos/:id
+router.put('/:id', updateTodo);
 
 //DELETE /api/todos/:id
 router.delete('/:id', deleteTodo);
