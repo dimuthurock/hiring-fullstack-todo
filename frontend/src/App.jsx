@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import TodoCreate from './components/TodoCreate';
 import TodoList from './components/TodoList';
 
 import {
     getTodos,
+    createTodo,
     deleteTodo
 } from './services/todoService';
 
@@ -13,6 +15,7 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [editingTodo, setEditingTodo] = useState(null);
 
   async function loadTodos() {
       try {
@@ -29,8 +32,31 @@ function App() {
       }
   }
 
-  //TODO
-  async function handleSave(todoData) {
+ async function handleSave(todoData) {
+    try {
+        setError('');
+
+        const newTodo = await createTodo({
+            ...todoData,
+            IsDone: false
+        });
+
+        //await loadTodos();
+        setTodos(current => [newTodo, ...current]);
+
+    } catch (err) {
+        setError('Unable to save the todo.');
+    }
+}
+
+    //TODO
+  function handleEdit(todo) {
+      
+  }
+
+  function handleCancelEdit() {
+     setEditingTodo(null);
+
   }
 
   //TODO
@@ -60,16 +86,6 @@ function App() {
     }
   }
 
-  //TODO
-  function handleEdit(todo) {
-      
-  }
-
-  //TODO
-  function handleCancelEdit() {
-     
-  }
-
   useEffect(() => {
     loadTodos();
   }, []);
@@ -78,6 +94,12 @@ function App() {
         <div className="app">
             <div className="container">
                 <h1>Todo Manager</h1>
+
+                <TodoCreate
+                    todo={editingTodo}
+                    onSave={handleSave}
+                    onCancel={handleCancelEdit}
+                />
 
                 {error && (
                     <div className="error">

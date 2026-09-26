@@ -26,7 +26,56 @@ const getTodos = async (req, res) => {
 
 //TODO
 //GET /api/todos/:id
+
 //POST /api/todos
+const createTodo = async (req, res) => {
+    try {
+        const { Title, Description, IsDone = false } = req.body;
+
+        if (!Title || !Title.trim()) {
+            return res.status(400).json({
+                message: 'Title is required'
+            });
+        }
+
+        const pool = await poolPromise;
+
+        const result = await pool
+            .request()
+            .input('Title', 
+                sql.NVarChar(200), 
+                Title.trim())
+            .input(
+                'Description',
+                sql.NVarChar(sql.MAX),
+                Description?.trim() || null
+            )
+            .input('IsDone', 
+                sql.Bit, 
+                IsDone)
+            .query(`
+                INSERT INTO [dbo].[Todos]
+                    ([Title], [Description], [IsDone])
+                OUTPUT
+                    INSERTED.Id,
+                    INSERTED.Title,
+                    INSERTED.Description,
+                    INSERTED.IsDone,
+                    INSERTED.CreatedAt
+                VALUES
+                    (@Title, @Description, @IsDone)
+            `);
+
+        res.status(201).json(result.recordset[0]);
+    } catch (error) {
+        console.error('Error creating todo:', error);
+        res.status(500).json({
+            message: 'Failed to create todo'
+        });
+    }
+};
+
+//TODO
 //PUT /api/todos/:id
 
 //DELETE /api/todos/:id
@@ -61,5 +110,6 @@ const deleteTodo = async (req, res) => {
 
 module.exports = {
     getTodos,
+    createTodo,
     deleteTodo
 };
