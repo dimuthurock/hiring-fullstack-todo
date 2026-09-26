@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import TodoList from './components/TodoList';
 
 import {
-    getTodos
+    getTodos,
+    deleteTodo
 } from './services/todoService';
 
 import './App.css'
@@ -37,9 +38,26 @@ function App() {
       
   }
 
-  //TODO
   async function handleDelete(id) {
-      
+    const status = window.confirm(
+        'Are you sure you want to delete this todo?'
+    );
+
+    if (!status) {
+        return;
+    }
+
+    try {
+        setError('');
+
+        await deleteTodo(id);
+
+        setTodos(current =>
+            current.filter(todo => todo.Id !== id)
+        );
+    } catch (err) {
+        setError('Unable to delete the todo.');
+    }
   }
 
   //TODO

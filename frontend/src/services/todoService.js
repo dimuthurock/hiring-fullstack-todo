@@ -9,3 +9,13 @@ export async function getTodos() {
 
     return response.json();
 }
+
+export async function deleteTodo(id) {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE'
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to delete the todo');
+    }
+}

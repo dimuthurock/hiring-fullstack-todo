@@ -28,8 +28,38 @@ const getTodos = async (req, res) => {
 //GET /api/todos/:id
 //POST /api/todos
 //PUT /api/todos/:id
+
 //DELETE /api/todos/:id
+const deleteTodo = async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({
+                message: 'Invalid todo Id'
+            });
+        }
+
+        const pool = await poolPromise;
+
+        const result = await pool
+            .request()
+            .input('id', sql.Int, id)
+            .query(`
+                DELETE FROM [dbo].[todos]
+                WHERE id = @id
+            `);
+
+        res.status(200).send();
+    } catch (error) {
+        console.error('Error deleting todo:', error);
+        res.status(500).json({
+            message: 'Failed to delete todo'
+        });
+    }
+};
 
 module.exports = {
-    getTodos
+    getTodos,
+    deleteTodo
 };
