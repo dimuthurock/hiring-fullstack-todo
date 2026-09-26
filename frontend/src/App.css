@@ -90,20 +90,21 @@ button {
     opacity: 0.5;
 }
 
-.todo-create {
+.todo-form {
     display: grid;
     grid-template-columns: 1fr 1.5fr auto;
     gap: 10px;
     margin-bottom: 20px;
 }
 
-.todo-create input {
+.todo-form input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.todo-create button {
+.todo-form button {
     background: #2563eb;
     color: white;
+    width: 80px;
 }

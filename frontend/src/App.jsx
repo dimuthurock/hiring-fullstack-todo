@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import TodoCreate from './components/TodoCreate';
+import TodoForm from './components/TodoForm';
 import TodoList from './components/TodoList';
 
 import {
@@ -36,13 +36,20 @@ function App() {
     try {
         setError('');
 
-        const newTodo = await createTodo({
-            ...todoData,
-            IsDone: false
-        });
+        if (todoData) {
+            //Add a new todo
+            const newTodo = await createTodo({
+                ...todoData,
+                IsDone: false
+            });
 
-        //await loadTodos();
-        setTodos(current => [newTodo, ...current]);
+            //await loadTodos();
+            setTodos(current => [newTodo, ...current]);
+        }
+        else {
+            //Edit existing todo
+
+        }
 
     } catch (err) {
         setError('Unable to save the todo.');
@@ -51,12 +58,11 @@ function App() {
 
     //TODO
   function handleEdit(todo) {
-      
+      setEditingTodo(todo);
   }
 
   function handleCancelEdit() {
      setEditingTodo(null);
-
   }
 
   //TODO
@@ -95,7 +101,7 @@ function App() {
             <div className="container">
                 <h1>Todo Manager</h1>
 
-                <TodoCreate
+                <TodoForm
                     todo={editingTodo}
                     onSave={handleSave}
                     onCancel={handleCancelEdit}

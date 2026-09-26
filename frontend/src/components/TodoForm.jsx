@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function TodoCreate({ todo, onSave, onCancel }) {
+function TodoForm({ todo, onSave, onCancel }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
@@ -40,7 +40,7 @@ function TodoCreate({ todo, onSave, onCancel }) {
     };
 
     return (
-        <form className="todo-create" onSubmit={handleSubmit}>
+        <form className="todo-form" onSubmit={handleSubmit}>
             <input
                 type="text"
                 placeholder="Title (required)"
@@ -73,4 +73,4 @@ function TodoCreate({ todo, onSave, onCancel }) {
     );
 }
 
-export default TodoCreate;
+export default TodoForm;
