@@ -97,20 +97,23 @@ button {
     margin-bottom: 20px;
 }
 
-.todo-form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
 .todo-form input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.todo-form button {
+.todo-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.todo-form-actions button {
+    background: #e5e7eb;
+}
+
+.todo-form-actions .update-button {
     background: #2563eb;
     color: white;
-    width: 80px;
 }

@@ -7,6 +7,7 @@ import {
     getTodos,
     createTodo,
     updateTodo,
+    toggleTodo,
     deleteTodo
 } from './services/todoService';
 
@@ -89,7 +90,6 @@ function App() {
     }
 }
 
-    //TODO
   function handleEdit(todo) {
       setEditingTodo(todo);
   }
@@ -98,9 +98,20 @@ function App() {
      setEditingTodo(null);
   }
 
-  //TODO
   async function handleCheckChange(todo) {
-      
+    try {
+        setError('');
+
+        const updatedTodo = await toggleTodo(todo.Id, !todo.IsDone);
+
+        setTodos(current =>
+            current.map(item =>
+                item.Id === updatedTodo.Id ? updatedTodo : item
+            )
+        );
+    } catch (err) {
+        setError('Unable to update todo status.');
+    }
   }
 
   async function handleDelete(id) {

@@ -42,6 +42,22 @@ export async function updateTodo(id, todo) {
     return response.json();
 }
 
+export async function toggleTodo(id, isDone) {
+    const response = await fetch(`${API_URL}/${id}/done`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ IsDone: isDone })
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to patch the todo status');
+    }
+
+    return response.json();
+}
+
 export async function deleteTodo(id) {
     const response = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE'

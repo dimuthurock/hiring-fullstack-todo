@@ -24,9 +24,6 @@ const getTodos = async (req, res) => {
     }
 };
 
-//TODO
-//GET /api/todos/:id
-
 //POST /api/todos
 const createTodo = async (req, res) => {
     try {
@@ -142,6 +139,63 @@ const updateTodo = async (req, res) => {
     }
 };
 
+//PATCH /api/todos/:id/:isdone
+const toggleTodo = async (req, res) => {
+    try {
+        const id = Number(req.params.id);
+
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({
+                message: 'Invalid todo Id'
+            });
+        }
+
+        const { IsDone } = req.body;
+
+        if (typeof IsDone !== 'boolean') {
+            return res.status(400).json({
+                message: 'Completed must be a boolean'
+            });
+        }
+
+        const pool = await poolPromise;
+
+        const result = await pool
+            .request()
+            .input('Id', 
+                sql.Int, 
+                id)
+            .input('IsDone', 
+                sql.Bit, 
+                IsDone)
+            .query(`
+                UPDATE [dbo].[Todos]
+                SET    
+                    [IsDone] = @IsDone
+                 OUTPUT
+                    INSERTED.Id,
+                    INSERTED.Title,
+                    INSERTED.Description,
+                    INSERTED.IsDone,
+                    INSERTED.CreatedAt
+                WHERE (Id = @Id)
+            `);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({
+                message: 'Todo not found'
+            });
+        }
+
+        res.status(200).json(result.recordset[0]);
+    } catch (error) {
+        console.error('Error patching todo status:', error);
+        res.status(500).json({
+            message: 'Failed to patch todo status'
+        });
+    }
+};
+
 //DELETE /api/todos/:id
 const deleteTodo = async (req, res) => {
     try {
@@ -176,5 +230,6 @@ module.exports = {
     getTodos,
     createTodo,
     updateTodo,
+    toggleTodo,
     deleteTodo
 };

@@ -58,7 +58,9 @@ function TodoForm({ todo, onSave, onCancel }) {
             />
 
             <div className='todo-form-actions'>
-                <button type="submit">
+                <button 
+                    type="submit"
+                    className='update-button'>
                     {todo ? 'Update' : 'Add'}
                 </button>
 
