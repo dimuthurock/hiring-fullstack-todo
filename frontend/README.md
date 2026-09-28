@@ -1,16 +1,73 @@
-# React + Vite
+# TODO App - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+React frontend for the TODO application.
 
-Currently, two official plugins are available:
+The application allows users to:
+- View TODO items
+- Create a TODO
+- Edit a TODO
+- Mark a TODO as done/undone
+- Delete a TODO
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## React Compiler
+## Technology Stack
+- React
+- JavaScript
+- Vite
+- CSS
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+## Prerequisites
+- Node.js
+- npm
+- Running backend API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Setup
+1. Clone the repository: git clone <repository-url>
+2. Navigate to the frontend: cd frontend
+3. Install dependencies: npm install
+
+
+## Configuration
+- Create a `.env` file: 
+VITE_API_URL=http://localhost:5000/api
+
+(IMPORTANT: Update the URL if the backend is running on a different port.)
+
+
+## Run the Application
+npm run dev
+
+The application will be available at: http://localhost:5173
+
+
+## Features
+
+### View TODOs
+- Displays all TODO items retrieved from the backend.
+
+### Create a TODO
+- Allows user to create a TODO item with a required title and optional description.
+
+### Edit a TODO
+- Allows user to update an existing TODO item.
+
+### Toggle as Done / Undone
+- Allows user to mark a TODO item as completed or incomplete.
+
+### Delete a TODO
+- Allows user to remove a TODO item.
+
+
+## Error Handling
+The application displays appropriate messages when API requests fail.
+
+
+## Assumptions and Limitations
+
+- The application does not support user identification.
+- Uses one TODO list for evaluation.
+- TODO operations require the backend API to be running.
+- The frontend expects the configured API URL to be reachable.
