@@ -18,6 +18,7 @@ function TodoForm({ todo, onSave, onCancel }) {
         e.preventDefault();
 
         if (!title.trim()) {
+            alert('Title is required');
             return;
         }
 

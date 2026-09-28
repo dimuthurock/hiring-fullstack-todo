@@ -28,10 +28,8 @@ completing and deleting TODO items.
 2. Install dependencies: npm install
 
 
-## Database Setup
-1. Create a SQL Server database named: Todo
-2. Run the SQL script: src/database/schema.sql
-   (This creates the required `Todos` table.)
+## Database Setup 
+- Run src/database/schema.sql in SQL Server Management Studio to create the Todo database and Todos table.
 
 
 ## Configuration

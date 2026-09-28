@@ -120,7 +120,8 @@ const updateTodo = async (req, res) => {
                 SET    
                     [Title] = @Title,
                     [Description] = @Description, 
-                    [IsDone] = @IsDone
+                    [IsDone] = @IsDone,
+                    [UpdatedAt] = GETUTCDATE()
                  OUTPUT
                     INSERTED.Id,
                     INSERTED.Title,
@@ -171,7 +172,8 @@ const toggleTodo = async (req, res) => {
             .query(`
                 UPDATE [dbo].[Todos]
                 SET    
-                    [IsDone] = @IsDone
+                    [IsDone] = @IsDone,
+                    [UpdatedAt] = GETUTCDATE()
                  OUTPUT
                     INSERTED.Id,
                     INSERTED.Title,

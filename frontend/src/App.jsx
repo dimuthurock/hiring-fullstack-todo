@@ -84,7 +84,6 @@ function App() {
             //await loadTodos();
             setTodos(current => [newTodo, ...current]);
         }
-
     } catch (err) {
         setError('Unable to save the todo.');
     }
